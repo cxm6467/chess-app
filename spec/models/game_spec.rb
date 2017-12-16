@@ -113,5 +113,29 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  #tests for player_in_check?
 
+  describe "player_in_check?" do
+   it "should show true if player is in check" do
+     game = FactoryBot.create(:game)
+     piece1 = King.create(position_x: 1, position_y: 7, color: "white", game_id: game.id)
+     piece2 = Rook.create(position_x: 8, position_y: 7, color: "black", game_id: game.id)
+     
+     var = game.player_in_check?("white")
+
+     expect(var).to eq(true)
+   end
+  end
+  
+  describe "player_in_check?" do
+   it "should show true if player is in check" do
+     game = FactoryBot.create(:game)
+     piece1 = King.create(position_x: 1, position_y: 1, color: "white", game_id: game.id)
+     piece2 = Queen.create(position_x: 8, position_y: 8, color: "black", game_id: game.id)
+     
+     var = game.player_in_check?("white")
+
+     expect(var).to eq(true)
+   end
+  end
 end

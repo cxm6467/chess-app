@@ -29,8 +29,23 @@ class Game < ApplicationRecord
     else
         User.find(self.white_player_id).email
     end
-    
   end
+
+  def next_player(player)
+    if player == self.white_player_id
+      self.update_attributes(next_player_id: self.black_player_id)
+    else
+      self.update_attributes(next_player_id: self.white_player_id)
+    end
+  end
+
+
+  def player_in_check?(color)
+    game = self
+    king = game.pieces.find_by(type: "King", color: color)
+    return true if king.is_in_check?
+  end
+
 
   def is_stalemate?(color)
     game = self

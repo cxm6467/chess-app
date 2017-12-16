@@ -26,6 +26,8 @@ class Piece < ApplicationRecord
 
   def move_to!(new_x, new_y)
     @current_game = self.game
+    old_x = self.position_x
+    old_y = self.position_y
     @target = @current_game.pieces.where(position_x: new_x, position_y: new_y)[0]
     #cases for pawn promotion
     if @target == nil && self.color == "white" && new_y == 8 && self.type == "Pawn"
@@ -50,7 +52,11 @@ class Piece < ApplicationRecord
     end
   end
 
-
+  def revert_move_to!(old_x, old_y)
+    revert = @current_game.pieces.where(position_x: old_x, position_y: old_y)[0]
+    if @target != nil
+      @target.update_attributes!(position_x: nil, position_y: nil) #working
+  end
 
 
   def is_obstructed?(game, pos2)
