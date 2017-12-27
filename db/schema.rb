@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214124458) do
+ActiveRecord::Schema.define(version: 20171223163921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,10 +27,9 @@ ActiveRecord::Schema.define(version: 20171214124458) do
     t.integer  "result"
     t.integer  "winner_id"
     t.integer  "loser_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.boolean  "in_progress"
-    t.integer  "next_player_to_move_id"
     t.integer  "next_player_id"
   end
 
@@ -61,6 +60,8 @@ ActiveRecord::Schema.define(version: 20171214124458) do
     t.string   "type"
     t.string   "image"
     t.boolean  "moved",      default: false
+    t.string   "promo"
+    t.boolean  "en_passant"
   end
 
   create_table "queens", force: :cascade do |t|

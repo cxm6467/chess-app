@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
-
+  resource :dashboard, only: [:show]
   root 'games#index'
+  get 'team', to: 'static_pages#team'
   resources :games do
     collection do
       get :pending

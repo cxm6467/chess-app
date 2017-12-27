@@ -5,8 +5,8 @@ class GamesController < ApplicationController
   end
 
   def show
-      @local_game = Game.find_by_id(params[:id])
-      @local_pieces = @local_game.pieces
+    @game = Game.find_by_id(params[:id])
+    @pieces = @game.pieces
   end
 
   def pending
@@ -34,6 +34,11 @@ class GamesController < ApplicationController
     redirect_to game_path(@game)
   end
 
+  def update
+    @game = Game.find(params[:id])
+    @game.update_attributes(:black_player_id => current_user.id)
+    redirect_to game_path(@game)
+  end
 
   def forfeit
     @game = Game.find(params[:id])
@@ -51,6 +56,7 @@ class GamesController < ApplicationController
     king = @game.pieces.where(type: "King", color: color)[0]
     if king.can_castle
       king.castle!("kingside_castle", color)
+      @game.next_player(@game.next_player_id)
       redirect_to game_path(@game)
     end
   end
@@ -65,6 +71,7 @@ class GamesController < ApplicationController
     king = @game.pieces.where(type: "King", color: color)[0]
     if king.can_castle
       king.castle!("queenside_castle", color)
+      @game.next_player(@game.next_player_id)
       redirect_to game_path(@game)
     end
   end
